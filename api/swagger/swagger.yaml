@@ -74,6 +74,11 @@ paths:
       # used as the method name of the controller
       operationId: getUserByID
       parameters:
+        - name: auth
+          in: header
+          description: current user's auth token
+          required: true
+          type: string
         - name: id
           in: path
           description: The id of the user

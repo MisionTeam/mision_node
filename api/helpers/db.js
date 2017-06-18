@@ -17,7 +17,7 @@ function findAllUsers(cb) {
 }
 
 function findUserByID(id, cb) {
-    var sql = "select * from user where id=" + "'" + id + "'"
+    var sql = "select * from user where id=" + "" + id + ""
     mysqlCon.query(sql, function(err, result) {
         cb(err, result)
     })
