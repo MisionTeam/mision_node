@@ -70,7 +70,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
     get:
-      description: Returns all user profiles to the caller
+      description: Returns one user profile of the given id to the caller
       # used as the method name of the controller
       operationId: getUserByID
       parameters:
@@ -84,6 +84,31 @@ paths:
           description: The id of the user
           required: true
           type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SingleUserResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            #one user by id
+  /user/me:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    get:
+      description: Returns all user profiles to the caller
+      # used as the method name of the controller
+      operationId: getMyProfile
+      parameters:
+        - name: auth
+          in: header
+          description: current user's auth token
+          required: true
+          type: string
       responses:
         "200":
           description: Success
