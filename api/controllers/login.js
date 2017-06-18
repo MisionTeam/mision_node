@@ -1,5 +1,6 @@
 var facebook = require('../helpers/facebook')
-var db     = require('../helpers/db')
+var db       = require('../helpers/db')
+var token    = require('../helpers/token')
 
 module.exports = { loginWithFacebook }
 
@@ -30,8 +31,4 @@ function loginWithFacebook(req, res) {
     })
 
     console.log('facebook token: ' + facebookToken)
-}
-
-function tokenFrom(userID) {
-    return "new token"
 }

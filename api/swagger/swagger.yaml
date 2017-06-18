@@ -51,7 +51,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
     get:
-      description: Returns all user profiles to the caller
+      description: Returns all user profiles to the caller (testing purpose only)
       # used as the method name of the controller
       operationId: getAllUsers
       responses:
