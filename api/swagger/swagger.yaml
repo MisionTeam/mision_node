@@ -141,8 +141,8 @@ definitions:
           properties: 
             id: 
               type: number
-            facebook_id:
-              type: number
+            facebookId:
+              type: string
             firstname:
               type: string
             lastname:
@@ -155,7 +155,7 @@ definitions:
               type: string
             avatar:
               type: string
-            has_car:
+            hasCar:
               type: boolean
             job:
               type: string
@@ -167,7 +167,7 @@ definitions:
               type: string
             street:
               type: string
-            postal_code:
+            postalCode:
               type: string
             lat:
               type: number
@@ -181,9 +181,9 @@ definitions:
         type: object
         properties:
           id: 
-              type: number
-          facebook_id:
             type: number
+          facebookId:
+            type: string
           firstname:
             type: string
           lastname:
@@ -196,27 +196,24 @@ definitions:
             type: string
           avatar:
             type: string
-          has_car:
+          hasCar:
             type: boolean
           job:
             type: string
-          address:
-            type: object
-            properties:
-              country:
-                type: string
-              state:
-                type: string
-              city:
-                type: string
-              street:
-                type: string
-              postal_code:
-                type: string
-              lat:
-                type: number
-              lng:
-                type: number
+          country:
+            type: string
+          state:
+            type: string
+          city:
+            type: string
+          street:
+            type: string
+          postalCode:
+            type: string
+          lat:
+            type: number
+          lng:
+            type: number
   ErrorResponse:
     required:
       - message
