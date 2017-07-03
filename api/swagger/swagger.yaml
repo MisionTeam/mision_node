@@ -5,7 +5,7 @@ info:
 # during dev, should point to your local machine
 host: localhost:8080
 # basePath prefixes all resource paths 
-basePath: /
+basePath: /ms
 # 
 schemes:
   # tip: remove http to make production-grade
@@ -45,13 +45,13 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/GeneralResponse"
   #All Users
   /users:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
     get:
-      description: Returns all user profiles to the caller (testing purpose only)
+      description: Returns all users to the caller (testing purpose only)
       # used as the method name of the controller
       operationId: getAllUsers
       responses:
@@ -64,13 +64,12 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  #one user by id
+            $ref: "#/definitions/GeneralResponse"
   /user/{id}:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
     get:
-      description: Returns one user profile of the given id to the caller
+      description: Returns one user of the given id to the caller
       # used as the method name of the controller
       operationId: getUserByID
       parameters:
@@ -89,13 +88,12 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/SingleUserResponse"
+            $ref: "#/definitions/UserResponse"
         # responses may fall through to errors
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-            #one user by id
+            $ref: "#/definitions/GeneralResponse"
   /user/me:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
@@ -114,12 +112,153 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/SingleUserResponse"
+            $ref: "#/definitions/UserResponse"
         # responses may fall through to errors
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/GeneralResponse"
+  /missions:
+    x-swagger-router-controller: mission
+    get:
+      description: Returns all missions to the caller
+      # used as the method name of the controller
+      operationId: allMissions
+      parameters:
+        - name: auth
+          in: header
+          description: current user's auth token
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/MissionsResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+  /mission/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mission
+    get:
+      description: Returns one mission of the given id to the caller
+      # used as the method name of the controller
+      operationId: getMissionByID
+      parameters:
+        - name: auth
+          in: header
+          description: current user's auth token
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The id of the mission
+          required: true
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/MissionResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+  /mission/create:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mission
+    post:
+      description: Create new mission
+      # used as the method name of the controller
+      operationId: createMission
+      parameters:
+        - name: auth
+          in: header
+          description: current user's auth token
+          required: true
+          type: string
+        - name: mission
+          in: body
+          description: mission info
+          required: true
+          schema:
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              price:
+                type: number
+              dueDate:
+                type: string
+              lat:
+                type: string
+              lng:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/MissionResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+  /mission/{id}/update:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mission
+    post:
+      description: Update existing mission
+      # used as the method name of the controller
+      operationId: editMission
+      parameters:
+        - name: auth
+          in: header
+          description: current user's auth token
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The id of the mission
+          required: true
+          type: number
+        - name: mission
+          in: body
+          description: mission info
+          required: true
+          schema:
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              price:
+                type: number
+              dueDate:
+                type: string
+              lat:
+                type: string
+              lng:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/MissionResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -173,7 +312,7 @@ definitions:
               type: number
             lng:
               type: number
-  SingleUserResponse:
+  UserResponse:
     required:
       - user
     properties:
@@ -214,7 +353,87 @@ definitions:
             type: number
           lng:
             type: number
-  ErrorResponse:
+  MissionsResponse:
+    required:
+      - missions
+    properties:
+      missions:
+        type: array
+        items:
+          type: object
+          properties:
+            id: 
+              type: number
+            title:
+              type: string
+            description:
+              type: string
+            status:
+              type: number
+            price:
+              type: number
+            authorID:
+              type: number
+            accepterID:
+              type: number
+            postDate:
+              type: string
+            dueDate:
+              type: string
+            lat:
+              type: number
+            lng:
+              type: number
+            country:
+              type: string
+            state:
+              type: string
+            city:
+              type: string
+            street:
+              type: string
+            postalCode:
+              type: string
+  MissionResponse:
+    required:
+      - mission
+    properties:
+      mission:
+        type: object
+        properties:
+          id: 
+            type: number
+          title:
+            type: string
+          description:
+            type: string
+          status:
+            type: number
+          price:
+            type: number
+          authorID:
+            type: number
+          accepterID:
+            type: number
+          postDate:
+            type: string
+          dueDate:
+            type: string
+          lat:
+            type: number
+          lng:
+            type: number
+          country:
+            type: string
+          state:
+            type: string
+          city:
+            type: string
+          street:
+            type: string
+          postalCode:
+            type: string
+  GeneralResponse:
     required:
       - message
     properties:

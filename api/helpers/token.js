@@ -17,7 +17,7 @@ function userIDFrom(token) {
 function verify(token, cb) {
     var userID = userIDFrom(token)
 
-    if (userID == null || userID.length ==0) return cb(false)
+    if (userID == null || userID.length == 0) return cb(false)
 
     require('./db').findUserByID(userID, function(err,result) {
         if (err) return cb(false)

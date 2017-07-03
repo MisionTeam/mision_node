@@ -178,7 +178,7 @@ function createMission(msInfo, cb) {
         msInfo.authorID,
         new Date().toDateString,
         msInfo.dueDate,
-        msInfo.lat ? msInfo.lat : null
+        msInfo.lat ? msInfo.lat : null,
         msInfo.lng ? msInfo.lng : null
         ]]
 
